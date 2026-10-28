@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio - Salão de Beleza</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Janela de aviso -->
+    <div id="modal" class="modal escondido">
+        <div class="modal-caixa">
+            <h3 id="modal-titulo"></h3>
+            <p id="modal-mensagem"></p>
+            <button id="btn-fechar-modal" class="btn">OK</button>
+        </div>
+    </div>
+
+    <!-- Tela de login -->
+    <div id="tela-login" class="tela-login">
+        <form id="form-login" class="caixa caixa-login">
+            <h1 class="logo">Studio</h1>
+            <p class="texto-fraco">Entre para continuar</p>
+
+            <label for="login-usuario">Usuário</label>
+            <input type="text" id="login-usuario" required>
+
+            <label for="login-senha">Senha</label>
+            <input type="password" id="login-senha" required>
+
+            <button type="submit" class="btn btn-cheio">Entrar</button>
+
+            <p class="dica">Teste: <b>admin</b> / admin ou <b>cliente</b> / 123</p>
+        </form>
+    </div>
+
+    <!-- Tela do sistema -->
+    <div id="tela-sistema" class="tela-sistema escondido">
+
+        <header class="topo">
+            <div>
+                <h1 class="logo">Studio</h1>
+                <p id="boas-vindas" class="texto-fraco"></p>
+            </div>
+            <button id="btn-sair" class="btn btn-contorno">Sair</button>
+        </header>
+
+        <main class="conteudo">
+
+            <section>
+                <!-- Formulário do administrador -->
+                <form id="form-admin" class="caixa escondido">
+                    <h2>Lançar procedimento</h2>
+
+                    <label for="admin-nome">Nome da cliente</label>
+                    <input type="text" id="admin-nome" required>
+
+                    <label for="admin-procedimento">Procedimento</label>
+                    <select id="admin-procedimento">
+                        <option value="Corte">Corte de cabelo</option>
+                        <option value="Coloração">Coloração / Tintura</option>
+                        <option value="Luzes">Luzes / Mechas</option>
+                        <option value="Penteado">Penteado</option>
+                    </select>
+
+                    <!-- Aparece só quando o procedimento é Coloração -->
+                    <div id="ficha-coloracao" class="ficha escondido">
+                        <h3>Ficha de coloração</h3>
+                        <div class="duas-colunas">
+                            <div>
+                                <label for="admin-marca">Marca da tinta</label>
+                                <input type="text" id="admin-marca" placeholder="Ex: Niely Cor&Ton">
+                            </div>
+                            <div>
+                                <label for="admin-cor">Cor / numeração</label>
+                                <input type="text" id="admin-cor" placeholder="Ex: 8.26 Marsala">
+                            </div>
+                        </div>
+                        <label for="admin-aditivos">Aditivos / tratamento</label>
+                        <input type="text" id="admin-aditivos" placeholder="Ex: D-Pantenol">
+                    </div>
+
+                    <!-- Aparece só quando o procedimento é Luzes -->
+                    <div id="ficha-mechas" class="ficha escondido">
+                        <h3>Ficha de descoloração</h3>
+                        <div class="duas-colunas">
+                            <div>
+                                <label for="admin-tecnica">Técnica</label>
+                                <select id="admin-tecnica">
+                                    <option value="">Selecione</option>
+                                    <option value="Papel alumínio">Papel alumínio</option>
+                                    <option value="Touca">Touca</option>
+                                    <option value="Freehand / Balayage">Freehand / Balayage</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="admin-ox">Volume da OX</label>
+                                <select id="admin-ox">
+                                    <option value="">Selecione</option>
+                                    <option value="10 volumes">10 volumes</option>
+                                    <option value="20 volumes">20 volumes</option>
+                                    <option value="30 volumes">30 volumes</option>
+                                    <option value="40 volumes">40 volumes</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="admin-po">Pó descolorante</label>
+                                <input type="text" id="admin-po" placeholder="Ex: Truss">
+                            </div>
+                            <div>
+                                <label for="admin-matizador">Matizador</label>
+                                <input type="text" id="admin-matizador" placeholder="Ex: Pérola 9.89">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="duas-colunas">
+                        <div>
+                            <label for="admin-data">Data</label>
+                            <input type="date" id="admin-data" required>
+                        </div>
+                        <div>
+                            <label for="admin-valor">Valor (R$)</label>
+                            <input type="number" id="admin-valor" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <label for="admin-detalhes">Observações</label>
+                    <textarea id="admin-detalhes" rows="3"></textarea>
+
+                    <button type="submit" class="btn btn-cheio">Salvar ficha</button>
+                </form>
+
+                <!-- Formulário da cliente -->
+                <form id="form-cliente" class="caixa escondido">
+                    <h2>Agendar horário</h2>
+
+                    <label for="cliente-nome">Seu nome</label>
+                    <input type="text" id="cliente-nome" required>
+
+                    <label for="cliente-procedimento">O que deseja fazer?</label>
+                    <select id="cliente-procedimento">
+                        <option value="Corte">Corte de cabelo</option>
+                        <option value="Coloração">Coloração / Tintura</option>
+                        <option value="Luzes">Luzes / Mechas</option>
+                        <option value="Penteado">Penteado</option>
+                    </select>
+
+                    <div class="duas-colunas">
+                        <div>
+                            <label for="cliente-data">Dia</label>
+                            <input type="date" id="cliente-data" required>
+                        </div>
+                        <div>
+                            <label for="cliente-horario">Horário</label>
+                            <input type="time" id="cliente-horario" min="08:00" max="19:00" required>
+                        </div>
+                    </div>
+                    <p class="dica">Atendimento das 08:00 às 19:00.</p>
+
+                    <button type="submit" class="btn btn-cheio">Solicitar agendamento</button>
+                </form>
+            </section>
+
+            <section>
+                <h2 id="titulo-lista">Agenda</h2>
+                <div id="lista"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
