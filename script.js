@@ -114,10 +114,143 @@ function trocarFicha() {
 }
 
 
+// ---------- Pagamento ----------
+
+function pedirFormaPagamento(valorAtual) {
+    let dicaAtual = valorAtual ? "\nAtual: " + valorAtual : "";
+    let escolha = prompt(
+        "Qual foi a forma de pagamento?" + dicaAtual + "\n" +
+        "1 - Pix\n" +
+        "2 - Cartão de Crédito\n" +
+        "3 - Cartão de Débito\n" +
+        "4 - Dinheiro\n\n" +
+        "Digite o número ou o nome:"
+    );
+
+    if (escolha === null) return null;
+
+    let mapa = {
+        "1": "Pix",
+        "pix": "Pix",
+        "2": "Cartão de Crédito",
+        "credito": "Cartão de Crédito",
+        "crédito": "Cartão de Crédito",
+        "cartao de credito": "Cartão de Crédito",
+        "cartão de crédito": "Cartão de Crédito",
+        "3": "Cartão de Débito",
+        "debito": "Cartão de Débito",
+        "débito": "Cartão de Débito",
+        "cartao de debito": "Cartão de Débito",
+        "cartão de débito": "Cartão de Débito",
+        "4": "Dinheiro",
+        "dinheiro": "Dinheiro"
+    };
+
+    let normalizado = escolha.trim().toLowerCase();
+    if (!mapa[normalizado]) {
+        mostrarAviso("Forma de pagamento inválida", "Digite 1 (Pix), 2 (Crédito), 3 (Débito) ou 4 (Dinheiro).");
+        return null;
+    }
+
+    return mapa[normalizado];
+}
+
+
+// ---------- Menu de 3 pontinhos (admin) ----------
+
+function fecharMenusOpcoes() {
+    document.querySelectorAll(".menu-opcoes-lista.aberto").forEach((menuLista) => {
+        menuLista.classList.remove("aberto");
+    });
+}
+
+function alternarMenuOpcoes(evento, id) {
+    evento.stopPropagation();
+    let alvo = document.getElementById("menu-opcoes-" + id);
+    let jaAberto = alvo && alvo.classList.contains("aberto");
+
+    fecharMenusOpcoes();
+
+    if (alvo && !jaAberto) {
+        alvo.classList.add("aberto");
+    }
+}
+
+document.addEventListener("click", fecharMenusOpcoes);
+
+function editarRegistro(id) {
+    fecharMenusOpcoes();
+
+    let indice = registros.findIndex((item) => item.id == id);
+    if (indice === -1) return;
+
+    let r = registros[indice];
+
+    let novoProcedimento = prompt(
+        "Procedimento:",
+        r.procedimento || "Corte"
+    );
+    if (novoProcedimento === null) return;
+    if (novoProcedimento.trim() === "") {
+        mostrarAviso("Campo obrigatório", "O procedimento não pode ficar vazio.");
+        return;
+    }
+
+    let valorAtualStr = r.valor ? String(r.valor).replace(".", ",") : "";
+    let novoValorDigitado = prompt("Valor (R$) (deixe vazio se não houver):", valorAtualStr);
+    if (novoValorDigitado === null) return;
+
+    let novoValorFormatado = "";
+    if (novoValorDigitado.trim() !== "") {
+        let numeroValor = Number(novoValorDigitado.trim().replace(",", "."));
+        if (isNaN(numeroValor) || numeroValor < 0) {
+            mostrarAviso("Valor inválido", "Digite um valor numérico válido.");
+            return;
+        }
+        novoValorFormatado = numeroValor.toFixed(2);
+    }
+
+    let alterarPagamento = confirm("Deseja alterar ou informar a forma de pagamento?");
+    let novoPagamento = r.pagamento || "";
+    if (alterarPagamento) {
+        let escolhido = pedirFormaPagamento(r.pagamento || "");
+        if (!escolhido) return;
+        novoPagamento = escolhido;
+    }
+
+    let novasObs = prompt("Observações:", r.detalhes || "");
+    if (novasObs === null) return;
+
+    registros[indice].procedimento = novoProcedimento.trim();
+    registros[indice].valor = novoValorFormatado;
+    registros[indice].pagamento = novoPagamento;
+    registros[indice].detalhes = novasObs.trim();
+
+    salvarNoNavegador();
+    mostrarLista();
+    mostrarAviso("Registro atualizado", "As alterações foram salvas no histórico.");
+}
+
+function excluirRegistro(id) {
+    fecharMenusOpcoes();
+
+    let confirmar = confirm("Tem certeza que deseja excluir este registro do histórico?");
+    if (!confirmar) return;
+
+    registros = registros.filter((item) => item.id != id);
+    salvarNoNavegador();
+    mostrarLista();
+    mostrarAviso("Registro excluído", "O item foi removido do histórico.");
+}
+
+
 // ---------- Salvar ----------
 
 function salvarFichaAdmin(evento) {
     evento.preventDefault();
+
+    let pagamento = pedirFormaPagamento();
+    if (!pagamento) return;
 
     let procedimento = document.getElementById("admin-procedimento").value;
 
@@ -128,9 +261,10 @@ function salvarFichaAdmin(evento) {
         data: document.getElementById("admin-data").value,
         horario: "",
         valor: Number(document.getElementById("admin-valor").value).toFixed(2),
+        pagamento: pagamento,
         detalhes: document.getElementById("admin-detalhes").value,
         origem: "admin",
-        status: "confirmado"
+        status: "concluido"
     };
 
     if (procedimento == "Coloração") {
@@ -152,7 +286,7 @@ function salvarFichaAdmin(evento) {
     document.getElementById("form-admin").reset();
     trocarFicha();
     mostrarLista();
-    mostrarAviso("Ficha salva", "O procedimento foi registrado.");
+    mostrarAviso("Ficha salva", "Procedimento registrado (" + pagamento + ").");
 }
 
 function salvarAgendamento(evento) {
@@ -194,7 +328,7 @@ function salvarAgendamento(evento) {
 }
 
 
-// ---------- Aceitar / recusar (admin) ----------
+// ---------- Aceitar / recusar / concluir procedimento (admin) ----------
 
 function mudarStatus(id, novoStatus) {
     for (let i = 0; i < registros.length; i++) {
@@ -213,6 +347,46 @@ function mudarStatus(id, novoStatus) {
     }
 }
 
+function concluirProcedimento(id) {
+    let valorDigitado = prompt("Digite o valor cobrado pelo procedimento (ex: 50.00 ou 50,00):");
+    if (valorDigitado === null) return;
+
+    let valorLimpo = valorDigitado.trim().replace(",", ".");
+    let numeroValor = Number(valorLimpo);
+
+    if (valorLimpo === "" || isNaN(numeroValor) || numeroValor < 0) {
+        mostrarAviso("Valor inválido", "Informe um valor numérico válido para confirmar o procedimento.");
+        return;
+    }
+
+    let pagamento = pedirFormaPagamento();
+    if (!pagamento) return;
+
+    let obsExtra = prompt("Observações do atendimento (opcional):");
+    let dataConclusao = dataDeHoje();
+
+    for (let i = 0; i < registros.length; i++) {
+        if (registros[i].id == id) {
+            registros[i].status = "concluido";
+            registros[i].valor = numeroValor.toFixed(2);
+            registros[i].pagamento = pagamento;
+            registros[i].concluidoEm = dataConclusao;
+            if (obsExtra && obsExtra.trim() !== "") {
+                registros[i].detalhes = registros[i].detalhes
+                    ? registros[i].detalhes + " | " + obsExtra.trim()
+                    : obsExtra.trim();
+            }
+        }
+    }
+
+    salvarNoNavegador();
+    mostrarLista();
+    mostrarAviso(
+        "Procedimento concluído",
+        "Valor R$ " + numeroValor.toFixed(2).replace(".", ",") + " (" + pagamento + ") lançado no histórico."
+    );
+}
+
 
 // ---------- Montar a lista na tela ----------
 
@@ -228,6 +402,7 @@ function montarCartao(r) {
     let textoStatus = "Confirmado";
     if (r.status == "pendente") textoStatus = "Aguardando confirmação";
     if (r.status == "recusado") textoStatus = "Recusado";
+    if (r.status == "concluido") textoStatus = "Procedimento realizado";
 
     let quando = formatarData(r.data);
     if (r.horario) {
@@ -238,11 +413,28 @@ function montarCartao(r) {
 
     html += "<div class='cartao-topo'>";
     html += "<h3>" + r.nome + "</h3>";
+    html += "<div class='cartao-topo-acoes'>";
     html += "<span class='etiqueta'>" + r.procedimento + "</span>";
+
+    if (usuario == "admin") {
+        html += "<div class='menu-opcoes'>";
+        html += "<button type='button' class='btn-pontinhos' aria-label='Opções do registro' onclick='alternarMenuOpcoes(event, " + r.id + ")'>&#8942;</button>";
+        html += "<div id='menu-opcoes-" + r.id + "' class='menu-opcoes-lista'>";
+        html += "<button type='button' onclick='editarRegistro(" + r.id + ")'>Editar histórico</button>";
+        html += "<button type='button' class='perigo' onclick='excluirRegistro(" + r.id + ")'>Excluir</button>";
+        html += "</div>";
+        html += "</div>";
+    }
+
+    html += "</div>";
     html += "</div>";
 
     html += "<p class='status'>" + textoStatus + "</p>";
     html += linha("Data", quando);
+
+    if (r.concluidoEm) {
+        html += linha("Confirmado em", formatarData(r.concluidoEm));
+    }
 
     // Ficha de coloração
     if (r.marca || r.cor || r.aditivos) {
@@ -266,14 +458,22 @@ function montarCartao(r) {
     html += linha("Observações", r.detalhes);
 
     if (r.valor) {
-        html += "<p class='valor'>R$ " + r.valor.replace(".", ",") + "</p>";
+        html += "<p class='valor'>R$ " + String(r.valor).replace(".", ",") + "</p>";
     }
 
-    // Botões só para o admin em pedidos pendentes
+    html += linha("Pagamento", r.pagamento);
+
+    // Botões só para o admin
     if (usuario == "admin" && r.status == "pendente") {
         html += "<div class='botoes'>";
         html += "<button class='btn' onclick='mudarStatus(" + r.id + ", \"confirmado\")'>Aceitar</button>";
         html += "<button class='btn btn-contorno' onclick='mudarStatus(" + r.id + ", \"recusado\")'>Recusar</button>";
+        html += "</div>";
+    }
+
+    if (usuario == "admin" && r.status == "confirmado") {
+        html += "<div class='botoes'>";
+        html += "<button class='btn' onclick='concluirProcedimento(" + r.id + ")'>Confirmar procedimento feito</button>";
         html += "</div>";
     }
 

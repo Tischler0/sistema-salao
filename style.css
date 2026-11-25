@@ -1,18 +1,31 @@
-/* Cores do site */
+/* ==========================================================================
+   Studio Belleza - Sistema (Padronizado com a Landing Page)
+   ========================================================================== */
+
 :root {
-    --fundo: #f5f0eb;
+    --dark: #23201d;          /* cabeçalho e login */
+    --dark-hover: #3a332e;
+    --ink: #1d1916;           /* textos principais */
+    --texto-fraco: #6e635b;
+    --fundo: #f8f3ee;         /* creme principal da LP */
+    --hero-bg: #f2ece7;
     --caixa: #ffffff;
-    --texto: #2e2622;
-    --texto-fraco: #7a6e66;
-    --borda: #e2d8cf;
-    --destaque: #8a3a4a;
-    --destaque-escuro: #6e2c3a;
-    --pendente: #c98a1c;
-    --confirmado: #4a7c59;
-    --recusado: #b04a3f;
+    --card-secundario: #eee4dc;
+    --borda: #e3cfbf;         /* divisor da LP */
+    --gold: #c9a57f;          /* linha de destaque */
+    --gold-button: #c89f7b;   /* botão dourado */
+    --gold-button-hover: #d4ae8c;
+    --gold-logo: #d8ac85;
+    --gold-border: #be9570;
+    --pendente: #b87a14;
+    --confirmado: #3f6f4e;
+    --recusado: #a84238;
+    --font: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -20,73 +33,142 @@
 
 body {
     background: var(--fundo);
-    color: var(--texto);
-    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+    font-family: var(--font);
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
-    font-weight: normal;
+svg {
+    display: block;
 }
 
-h2 {
-    font-family: Georgia, serif;
-    font-size: 22px;
-    margin-bottom: 16px;
+.sprite {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
 }
 
 .escondido {
     display: none !important;
 }
 
-.logo {
-    font-family: Georgia, serif;
-    font-size: 32px;
-    color: var(--destaque);
-    letter-spacing: 1px;
+/* Linha dourada acima dos títulos (igual da LP) */
+.accent-line {
+    background: var(--gold);
+    display: block;
+    height: 3px;
+    margin-bottom: 10px;
+    width: 56px;
+}
+
+.accent-line--center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2, h3 {
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 23px;
+    line-height: 1.2;
+    margin-bottom: 18px;
 }
 
 .texto-fraco {
     color: var(--texto-fraco);
+    font-size: 14px;
 }
 
 .dica {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--texto-fraco);
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
+/* --------------------------------------------------------------------------
+   Logo Studio Belleza (lótus + tipografia)
+   -------------------------------------------------------------------------- */
+.brand {
+    align-items: center;
+    color: #fff;
+    display: inline-flex;
+    flex-shrink: 0;
+}
 
-/* Caixas e formulários */
+.brand__logo {
+    color: var(--gold-logo);
+    height: 40px;
+    width: 54px;
+}
 
+.brand__divider {
+    background: #d3cfcc;
+    height: 38px;
+    margin: 0 14px 0 12px;
+    width: 1.5px;
+}
+
+.brand__name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1;
+}
+
+.brand__name span:first-child {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.brand__name span:last-child {
+    font-size: 15.5px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+}
+
+/* --------------------------------------------------------------------------
+   Caixas e formulários
+   -------------------------------------------------------------------------- */
 .caixa {
     background: var(--caixa);
     border: 1px solid var(--borda);
-    border-radius: 6px;
-    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 28px rgba(29, 25, 22, 0.04);
+    padding: 28px;
 }
 
 label {
+    color: var(--ink);
     display: block;
-    font-size: 14px;
-    margin: 14px 0 4px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin: 15px 0 6px;
 }
 
 input, select, textarea {
-    width: 100%;
-    padding: 9px 10px;
+    background: #fcfaf8;
     border: 1px solid var(--borda);
-    border-radius: 4px;
-    font-size: 15px;
+    border-radius: 10px;
+    color: var(--ink);
     font-family: inherit;
-    background: #fff;
-    color: var(--texto);
+    font-size: 14.5px;
+    padding: 10px 13px;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
 
 input:focus, select:focus, textarea:focus {
+    background: #fff;
+    border-color: var(--gold-border);
+    box-shadow: 0 0 0 3px rgba(201, 165, 127, 0.2);
     outline: none;
-    border-color: var(--destaque);
 }
 
 .duas-colunas {
@@ -96,131 +178,237 @@ input:focus, select:focus, textarea:focus {
 }
 
 .ficha {
-    background: #faf6f2;
-    border-left: 3px solid var(--destaque);
-    padding: 4px 14px 14px;
-    margin-top: 16px;
+    background: var(--hero-bg);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    margin-top: 18px;
+    padding: 6px 16px 16px;
 }
 
 .ficha h3 {
-    font-size: 15px;
-    color: var(--destaque);
+    color: var(--ink);
+    font-size: 14.5px;
     margin-top: 10px;
 }
 
-
-/* Botões */
-
+/* --------------------------------------------------------------------------
+   Botões (mesmo estilo pílula da Landing Page)
+   -------------------------------------------------------------------------- */
 .btn {
-    background: var(--destaque);
-    color: #fff;
-    border: 1px solid var(--destaque);
-    border-radius: 4px;
-    padding: 9px 18px;
-    font-size: 15px;
-    font-family: inherit;
+    align-items: center;
+    background: var(--gold-button);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    color: var(--ink);
     cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1;
+    padding: 11px 22px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .btn:hover {
-    background: var(--destaque-escuro);
+    background: var(--gold-button-hover);
+    transform: translateY(-1px);
 }
 
 .btn-cheio {
+    background: var(--dark);
+    color: #fff;
+    margin-top: 22px;
+    padding: 13px 24px;
     width: 100%;
-    margin-top: 20px;
+}
+
+.btn-cheio:hover {
+    background: var(--dark-hover);
 }
 
 .btn-contorno {
     background: transparent;
-    color: var(--destaque);
+    border-color: var(--gold-border);
+    color: var(--ink);
 }
 
 .btn-contorno:hover {
-    background: #f3e6e8;
+    background: rgba(201, 165, 127, 0.16);
 }
 
+.btn-contorno-claro {
+    background: transparent;
+    border-color: var(--gold-border);
+    color: #fff;
+    font-size: 13px;
+    padding: 9px 20px;
+}
 
-/* Tela de login */
+.btn-contorno-claro:hover {
+    background: var(--gold-button);
+    color: var(--ink);
+}
 
+/* --------------------------------------------------------------------------
+   Tela de login
+   -------------------------------------------------------------------------- */
 .tela-login {
-    min-height: 100vh;
-    display: flex;
     align-items: center;
+    background: radial-gradient(circle at top, #f2ece7 0%, #e9dfd5 100%);
+    display: flex;
     justify-content: center;
-    padding: 16px;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .caixa-login {
+    max-width: 390px;
+    padding: 34px 30px;
     width: 100%;
-    max-width: 360px;
 }
 
-.caixa-login .logo {
-    text-align: center;
+.login-marca {
+    align-items: center;
+    background: var(--dark);
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+    padding: 16px;
 }
 
 .caixa-login > .texto-fraco {
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 8px;
 }
 
+.caixa-login .dica {
+    border-top: 1px solid var(--borda);
+    margin-top: 18px;
+    padding-top: 14px;
+    text-align: center;
+}
 
-/* Tela do sistema */
-
+/* --------------------------------------------------------------------------
+   Tela do sistema e Cabeçalho escuro (igual da LP)
+   -------------------------------------------------------------------------- */
 .tela-sistema {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px 16px;
+    min-height: 100vh;
 }
 
 .topo {
-    display: flex;
-    justify-content: space-between;
+    background: var(--dark);
+    color: #fff;
+    margin-bottom: 32px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.topo__inner {
     align-items: center;
-    border-bottom: 1px solid var(--borda);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
+    display: flex;
+    height: 76px;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 0 24px;
+}
+
+.topo__marca {
+    align-items: center;
+    display: flex;
+    gap: 18px;
+}
+
+.topo__separador {
+    background: rgba(255, 255, 255, 0.25);
+    height: 26px;
+    width: 1px;
+}
+
+.texto-boas-vindas {
+    color: var(--gold-logo);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .conteudo {
     display: grid;
+    gap: 32px;
     grid-template-columns: 1fr;
-    gap: 28px;
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 0 24px 48px;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 840px) {
     .conteudo {
-        grid-template-columns: 400px 1fr;
         align-items: start;
+        grid-template-columns: 420px 1fr;
     }
 }
 
+@media (max-width: 560px) {
+    .topo__separador,
+    .texto-boas-vindas {
+        display: none;
+    }
 
-/* Cartões da lista */
+    .duas-colunas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Cartões da lista
+   -------------------------------------------------------------------------- */
+.lista-cabecalho {
+    margin-bottom: 4px;
+}
 
 #lista {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .cartao {
     background: var(--caixa);
     border: 1px solid var(--borda);
-    border-left: 4px solid var(--confirmado);
-    border-radius: 6px;
-    padding: 16px;
+    border-left: 5px solid var(--confirmado);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(29, 25, 22, 0.035);
+    padding: 18px 20px;
 }
 
-.cartao.pendente { border-left-color: var(--pendente); }
-.cartao.recusado { border-left-color: var(--recusado); opacity: 0.75; }
+.cartao.pendente {
+    border-left-color: var(--pendente);
+}
+
+.cartao.recusado {
+    border-left-color: var(--recusado);
+    opacity: 0.72;
+}
+
+.cartao.concluido {
+    border-left-color: var(--gold);
+}
 
 .cartao-topo {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    display: flex;
     gap: 10px;
+    justify-content: space-between;
+}
+
+.cartao-topo-acoes {
+    align-items: center;
+    display: flex;
+    gap: 6px;
 }
 
 .cartao h3 {
@@ -228,45 +416,131 @@ input:focus, select:focus, textarea:focus {
 }
 
 .etiqueta {
-    font-size: 13px;
-    background: #f3e6e8;
-    color: var(--destaque);
-    padding: 2px 10px;
-    border-radius: 20px;
+    background: var(--card-secundario);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 4px 12px;
     white-space: nowrap;
 }
 
-.status {
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--confirmado);
-    margin-bottom: 6px;
+/* Menu de 3 pontinhos */
+.menu-opcoes {
+    position: relative;
 }
 
-.cartao.pendente .status { color: var(--pendente); }
-.cartao.recusado .status { color: var(--recusado); }
+.btn-pontinhos {
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--texto-fraco);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 18px;
+    font-weight: 700;
+    height: 30px;
+    justify-content: center;
+    line-height: 1;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    width: 30px;
+}
+
+.btn-pontinhos:hover {
+    background: var(--card-secundario);
+    color: var(--ink);
+}
+
+.menu-opcoes-lista {
+    background: var(--caixa);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(29, 25, 22, 0.12);
+    display: none;
+    flex-direction: column;
+    min-width: 155px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 15;
+}
+
+.menu-opcoes-lista.aberto {
+    display: flex;
+}
+
+.menu-opcoes-lista button {
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 14px;
+    text-align: left;
+    transition: background-color 0.15s ease;
+}
+
+.menu-opcoes-lista button:hover {
+    background: var(--fundo);
+}
+
+.menu-opcoes-lista button.perigo {
+    color: var(--recusado);
+}
+
+.menu-opcoes-lista button.perigo:hover {
+    background: rgba(168, 66, 56, 0.08);
+}
+
+.status {
+    color: var(--confirmado);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin: 4px 0 8px;
+    text-transform: uppercase;
+}
+
+.cartao.pendente .status {
+    color: var(--pendente);
+}
+
+.cartao.recusado .status {
+    color: var(--recusado);
+}
+
+.cartao.concluido .status {
+    color: var(--ink);
+}
 
 .cartao p {
     font-size: 14px;
+    margin-top: 3px;
 }
 
 .detalhe {
-    background: #faf6f2;
-    padding: 8px 12px;
-    margin: 8px 0;
-    border-radius: 4px;
+    background: var(--fundo);
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 10px 14px;
 }
 
 .valor {
-    margin-top: 6px;
-    font-weight: bold;
-    color: var(--confirmado);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 10px;
 }
 
 .botoes {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 14px;
 }
 
 .botoes .btn {
@@ -274,43 +548,50 @@ input:focus, select:focus, textarea:focus {
 }
 
 .vazio {
+    background: var(--caixa);
+    border: 1.5px dashed var(--gold-border);
+    border-radius: 16px;
     color: var(--texto-fraco);
+    padding: 36px 20px;
     text-align: center;
-    padding: 30px;
-    border: 1px dashed var(--borda);
-    border-radius: 6px;
 }
 
-
-/* Janela de aviso */
-
+/* --------------------------------------------------------------------------
+   Janela de aviso (Modal)
+   -------------------------------------------------------------------------- */
 .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
     align-items: center;
+    background: rgba(29, 25, 22, 0.55);
+    display: flex;
+    inset: 0;
     justify-content: center;
     padding: 16px;
-    z-index: 10;
+    position: fixed;
+    z-index: 40;
 }
 
 .modal-caixa {
     background: #fff;
-    border-radius: 6px;
-    padding: 24px;
-    max-width: 340px;
-    width: 100%;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+    max-width: 360px;
+    padding: 28px 24px;
     text-align: center;
+    width: 100%;
 }
 
 .modal-caixa h3 {
-    font-family: Georgia, serif;
     font-size: 20px;
     margin-bottom: 8px;
 }
 
 .modal-caixa p {
     color: var(--texto-fraco);
-    margin-bottom: 20px;
+    font-size: 14.5px;
+    margin-bottom: 22px;
+}
+
+.modal-caixa .btn {
+    min-width: 120px;
 }

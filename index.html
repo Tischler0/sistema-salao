@@ -3,14 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio - Salão de Beleza</title>
+    <title>Studio Belleza | Sistema de Gestão</title>
+
+    <!-- Fonte Inter (mesma da Landing Page) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Sprite SVG com a flor de lótus da marca -->
+    <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="logo-lotus" viewBox="4 2 74 54">
+            <g fill="none" stroke="currentColor" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="10">
+                <path d="M38.2 51.6C34 48 30.5 41 30.5 31 30.5 17 38.5 7 41 3.5 43.5 7 51.5 17 51.5 31 51.5 41 48 48 43.8 51.6"/>
+                <path d="M31.2 21.4C27.5 19.2 22.5 17.4 18.2 17.2 17.2 38 24 50 38.5 51.6"/>
+                <path d="M50.8 21.4C54.5 19.2 59.5 17.4 63.8 17.2 64.8 38 58 50 43.5 51.6"/>
+                <path d="M30.2 38.8C22 33.2 13 30.8 6.3 31 6.8 44 19 56.5 38.5 51.6"/>
+                <path d="M51.8 38.8C60 33.2 69 30.8 75.7 31 75.2 44 63 56.5 43.5 51.6"/>
+            </g>
+        </symbol>
+    </svg>
+
     <!-- Janela de aviso -->
     <div id="modal" class="modal escondido">
         <div class="modal-caixa">
+            <span class="accent-line accent-line--center" aria-hidden="true"></span>
             <h3 id="modal-titulo"></h3>
             <p id="modal-mensagem"></p>
             <button id="btn-fechar-modal" class="btn">OK</button>
@@ -20,18 +40,22 @@
     <!-- Tela de login -->
     <div id="tela-login" class="tela-login">
         <form id="form-login" class="caixa caixa-login">
-            <h1 class="logo">Studio</h1>
-            <p class="texto-fraco">Entre para continuar</p>
+            <div class="login-marca">
+                <svg class="brand__logo" aria-hidden="true"><use href="#logo-lotus"></use></svg>
+                <span class="brand__divider" aria-hidden="true"></span>
+                <span class="brand__name"><span>STUDIO</span><span>BELLEZA</span></span>
+            </div>
+            <p class="texto-fraco">Acesse o sistema para continuar</p>
 
             <label for="login-usuario">Usuário</label>
-            <input type="text" id="login-usuario" required>
+            <input type="text" id="login-usuario" placeholder="Digite seu usuário" required>
 
             <label for="login-senha">Senha</label>
-            <input type="password" id="login-senha" required>
+            <input type="password" id="login-senha" placeholder="Digite sua senha" required>
 
-            <button type="submit" class="btn btn-cheio">Entrar</button>
+            <button type="submit" class="btn btn-cheio">Entrar no sistema</button>
 
-            <p class="dica">Teste: <b>admin</b> / admin ou <b>cliente</b> / 123</p>
+            <p class="dica">Acesso teste: <b>admin</b> / admin &nbsp;•&nbsp; <b>cliente</b> / 123</p>
         </form>
     </div>
 
@@ -39,11 +63,18 @@
     <div id="tela-sistema" class="tela-sistema escondido">
 
         <header class="topo">
-            <div>
-                <h1 class="logo">Studio</h1>
-                <p id="boas-vindas" class="texto-fraco"></p>
+            <div class="topo__inner">
+                <div class="topo__marca">
+                    <div class="brand">
+                        <svg class="brand__logo" aria-hidden="true"><use href="#logo-lotus"></use></svg>
+                        <span class="brand__divider" aria-hidden="true"></span>
+                        <span class="brand__name"><span>STUDIO</span><span>BELLEZA</span></span>
+                    </div>
+                    <span class="topo__separador" aria-hidden="true"></span>
+                    <p id="boas-vindas" class="texto-boas-vindas"></p>
+                </div>
+                <button id="btn-sair" class="btn btn-contorno-claro">Sair</button>
             </div>
-            <button id="btn-sair" class="btn btn-contorno">Sair</button>
         </header>
 
         <main class="conteudo">
@@ -51,10 +82,11 @@
             <section>
                 <!-- Formulário do administrador -->
                 <form id="form-admin" class="caixa escondido">
+                    <span class="accent-line" aria-hidden="true"></span>
                     <h2>Lançar procedimento</h2>
 
                     <label for="admin-nome">Nome da cliente</label>
-                    <input type="text" id="admin-nome" required>
+                    <input type="text" id="admin-nome" placeholder="Ex: Mariana Silva" required>
 
                     <label for="admin-procedimento">Procedimento</label>
                     <select id="admin-procedimento">
@@ -122,22 +154,23 @@
                         </div>
                         <div>
                             <label for="admin-valor">Valor (R$)</label>
-                            <input type="number" id="admin-valor" step="0.01" min="0" required>
+                            <input type="number" id="admin-valor" step="0.01" min="0" placeholder="0,00" required>
                         </div>
                     </div>
 
                     <label for="admin-detalhes">Observações</label>
-                    <textarea id="admin-detalhes" rows="3"></textarea>
+                    <textarea id="admin-detalhes" rows="3" placeholder="Detalhes adicionais do atendimento..."></textarea>
 
                     <button type="submit" class="btn btn-cheio">Salvar ficha</button>
                 </form>
 
                 <!-- Formulário da cliente -->
                 <form id="form-cliente" class="caixa escondido">
+                    <span class="accent-line" aria-hidden="true"></span>
                     <h2>Agendar horário</h2>
 
                     <label for="cliente-nome">Seu nome</label>
-                    <input type="text" id="cliente-nome" required>
+                    <input type="text" id="cliente-nome" placeholder="Digite seu nome" required>
 
                     <label for="cliente-procedimento">O que deseja fazer?</label>
                     <select id="cliente-procedimento">
@@ -163,8 +196,11 @@
                 </form>
             </section>
 
-            <section>
-                <h2 id="titulo-lista">Agenda</h2>
+            <section class="coluna-lista">
+                <div class="lista-cabecalho">
+                    <span class="accent-line" aria-hidden="true"></span>
+                    <h2 id="titulo-lista">Agenda</h2>
+                </div>
                 <div id="lista"></div>
             </section>
 
